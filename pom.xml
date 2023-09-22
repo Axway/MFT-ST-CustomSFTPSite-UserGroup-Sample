@@ -1,17 +1,293 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.axway.pso.customers</groupId>
+  <artifactId>securetransport-plugins-site-customsftp</artifactId>
+  <version>0.1.55-DEMO</version>
 
-    <groupId>org.example</groupId>
-    <artifactId>untitled</artifactId>
-    <version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
 
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-    
+	<properties>
+	
+	
+		<!--ST dependencies -->
+        <st.spi.version>1.1</st.spi.version>
+        <st.spi.artifact.version>5.4.0-15</st.spi.artifact.version>
+
+        <!--third party common -->
+        <java.version>1.8</java.version>
+        <javax.inject.version>1</javax.inject.version>
+		<st.slf4j.binder.version>1.0.0-7</st.slf4j.binder.version>
+		<st.slf4j.api.version>1.7.30</st.slf4j.api.version>
+		<javax.validation.version>2.0.1.Final</javax.validation.version>
+      
+        <!--naming -->
+        <target.dependency.full.path>${project.build.directory}/${plugin.relative.path}/${plugin.filename}/lib</target.dependency.full.path>
+        <dependency.path>./lib</dependency.path>
+		<assembly.bin.path>src/assembly/bin.xml</assembly.bin.path>
+		<assembly.jar.path>src/assembly/jar.xml</assembly.jar.path>
+		<target.zip.filename>${project.artifactId}-${project.version}</target.zip.filename>
+		<target.jar.filename>${plugin.filename}</target.jar.filename>
+		
+		<plugin.vendor>Axway Software</plugin.vendor>
+		<plugin.name>CustomSFTP</plugin.name>
+		<plugin.protocol>${plugin.name}</plugin.protocol>
+		<plugin.protocol.name>CustomSFTP</plugin.protocol.name>
+		<plugin.protocol.label>Custom SFTP Transfer Site</plugin.protocol.label>
+		<plugin.relative.path>plugins/transferSite</plugin.relative.path>
+		<plugin.homefolder>${plugin.name}</plugin.homefolder>
+		<plugin.filename>${plugin.name}</plugin.filename>
+		<plugin.dependency.folder>lib</plugin.dependency.folder>
+		
+		<resources.source.path>${basedir}/src/main/resources</resources.source.path>
+		<resources.source.file.path>${basedir}/src/main/propertyfile</resources.source.file.path>
+
+        
+
+        <!--custom site plugin properties for SPI 1.7-->
+        <custom.site.class>com.axway.pso.plugins.customsftp.site.CustomSFTPSite</custom.site.class>
+        <custom.bean.class>com.axway.pso.plugins.customsftp.site.bean.CustomSFTPBean</custom.bean.class>
+	</properties>
+
+	<dependencies>
+        <!--ST dependencies -->
+        <dependency>
+            <groupId>com.axway.securetransport.plugins</groupId>
+            <artifactId>securetransport-plugins-site-spi</artifactId>
+            <version> 5.4.0-12</version>
+           <scope>provided</scope>
+        </dependency>
+
+		<dependency>
+			<groupId>com.axway.io</groupId>
+			<artifactId>securetransport-shared-java-core</artifactId>
+			<scope>system</scope>
+			<version>15.0.0-10</version>
+			<systemPath>${dependency.path}/securetransport-shared-java-core-15.0.0.jar</systemPath>
+		</dependency>
+
+
+
+		
+        <!--third party common-->
+<!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
+<dependency>
+    <groupId>javax.inject</groupId>
+    <artifactId>javax.inject</artifactId>
+    <version>1</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
+<dependency>
+    <groupId>javax.validation</groupId>
+    <artifactId>validation-api</artifactId>
+    <version>2.0.1.Final</version>
+</dependency>
+
+        
+<!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->
+<dependency>
+    <groupId>com.jcraft</groupId>
+    <artifactId>jsch</artifactId>
+    <version>0.1.55</version>
+</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on -->
+<dependency>
+    <groupId>org.bouncycastle</groupId>
+    <artifactId>bcprov-jdk15on</artifactId>
+    <version>1.70</version>
+</dependency>
+
+		<!-- https://mvnrepository.com/artifact/oro/oro -->
+<dependency>
+    <groupId>oro</groupId>
+    <artifactId>oro</artifactId>
+    <version>2.0.8</version>
+</dependency>
+
+
+    </dependencies>
+
+    <build>
+        <finalName>${plugin.filename}</finalName>
+        <resources>
+            <resource>
+                <directory>${resources.source.path}</directory>
+                <filtering>true</filtering>
+            </resource>
+			
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                
+                <executions>
+                    <execution>
+                        <id>regex-property-spi-version</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>st.spi.version.tag</name>
+                            <value>${st.spi.version}</value>
+                            <regex>\.</regex>
+                            <replacement>-</replacement>
+                            <failIfNoMatch>false</failIfNoMatch>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                        <manifestEntries>
+                            <Custom-Protocol>${plugin.protocol}</Custom-Protocol>
+                            <Protocol-Label>${plugin.protocol.label}</Protocol-Label>
+                            <SPI-Version>1.1</SPI-Version>
+                            <Custom-UI>html/CustomSFTPSite.html</Custom-UI>
+                            <Custom-Bean>${custom.bean.class}</Custom-Bean>
+                            <Custom-Site>${custom.site.class}</Custom-Site>
+							<Class-Path> lib/oro-2.0.8.jar lib/securetransport-shared-java-core-15.0.0-10.jar lib/jsch-0.2.10.jar lib/jsch-0.1.55.jar lib/bcprov-jdk15on-1.70.jar  </Class-Path>
+                        </manifestEntries>
+                        <manifest>
+                            <addClasspath>true</addClasspath> 
+                        </manifest>
+                    </archive>
+                    <finalName>${plugin.relative.path}/${plugin.homefolder}/${project.build.finalName}</finalName>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${target.dependency.full.path}</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                            <excludeScope>provided</excludeScope>
+                        </configuration>
+                    </execution>
+					<execution>
+                        <id>unpack</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <overWrite>true</overWrite>
+                            <outputDirectory>${project.build.directory}/property-file</outputDirectory>
+                            <includes>mime.types</includes>
+                            <overWriteReleases>true</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/${plugin.relative.path}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources</directory>
+                                    <exclude>config/**</exclude>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+                    <execution>
+						<id>copy-resources-config-file</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/property-file</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources/config</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+				</executions>
+			</plugin>
+			<!-- This plugin is used for creating jar, considering assembly/jar.xml -->
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+				</configuration>
+				<executions>
+					<execution>
+						<id>jar-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<appendAssemblyId>false</appendAssemblyId>
+							<descriptors>
+								<descriptor>${assembly.jar.path}</descriptor>
+							</descriptors>
+							<finalName>${target.jar.filename}</finalName>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- This plugin is used for creating zip, considering assembly/bin.xml-->
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.3.0</version>
+				<configuration>
+				</configuration>
+				<executions>
+					<execution>
+						<id>zip-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<appendAssemblyId>false</appendAssemblyId>
+							<descriptors>
+								<descriptor>${assembly.bin.path}</descriptor>
+							</descriptors>
+							<finalName>${target.zip.filename}</finalName>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin> 
+        </plugins>
+
+
+    </build>
 </project>

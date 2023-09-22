@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+    <title>CustomSFTP</title>
+</head>
+<body>
+      <script src="/coreadmin/servlet/pluginContent/js/CustomSFTPSite.js?pluginName=CustomSFTP" ></script>
+
+    <table border="0" cellpadding="1" cellspacing="0">
+        <tr>
+            <td colspan="3"><b>Server Settings:</b></td>
+        </tr>
+        <tr>
+            <td style="padding-left: 50px;" nowrap="nowrap" width="100">Host*:</td>
+            <td colspan="2">
+                <fieldset>
+                    <div>
+                        <label>
+                            <input type="text" size="40" id="csftpHost" name="csftpHost" value="" /> 
+                            <div class="contextual-help">
+						        <a data-content-id="csftpHost-help"
+							       title="Open contextual help" class="modern-iconhelp" tabIndex="-1" href="#">?</a>
+						        <div class="help-dialog hidden">
+							        <div class="dialog-header">
+								        <span class="hidden" ></span>
+										<a class="btn-close" href="#">x</a>
+							        </div>
+							        <div class="dialog-content" data-for="csftpHost" ></div>
+						        </div>
+				           	</div>
+					        <div id="csftpHost-help" class="hidden">
+						       <p>The ip or host for the SFTP transfer.</p>                            
+						    </div>
+                        </label>
+                    </div>
+                </fieldset>      
+            </td>
+        </tr>  
+        <tr>
+            <td style="padding-left: 50px;" nowrap="nowrap" width="100">Port*:</td>
+            <td colspan="2">
+                <fieldset>
+                    <div>
+                        <label>
+                            <input type="text" size="40" id="csftpPort" name="csftpPort" value="" /> 
+                            <div class="contextual-help">
+						        <a data-content-id="csftpPort-help"
+							       title="Open contextual help" class="modern-iconhelp" tabIndex="-1" href="#">?</a>
+						        <div class="help-dialog hidden">
+							        <div class="dialog-header">
+								        <span class="hidden" ></span>
+										<a class="btn-close" href="#">x</a>
+							        </div>
+							        <div class="dialog-content" data-for="csftpPort" ></div>
+						        </div>
+				           	</div>
+					        <div id="csftpPort-help" class="hidden">
+						       <p>The Port used for SFTP transfer.</p>                            
+						    </div>
+                        </label>
+                    </div>
+                </fieldset>      
+            </td>
+        </tr>	
+		<tr>
+        <td style="padding-left: 10px;" nowrap="nowrap">Network Zone*:</td>
+            <td>
+                <select id="csftp_networkZone" name="csftp_networkZone" ></select>
+            </td>
+        </tr>
+          
+        <tr>
+            <td colspan="2"><img src="/coreadmin/images/cleardot.gif" width="1" height="12" /></td>
+        </tr>		
+        <tr>
+            <td colspan="3"><b>Transfer Settings:</b></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <fieldset><legend>Download Settings</legend>
+                    <table border="0" cellpadding="1" cellspacing="0">
+                    	<tr>
+				            <td style="padding-left: 50px;" nowrap="nowrap" width="100">Custom ls Command for Download:</td>
+				            <td colspan="2">
+				                <fieldset>
+				                    <div>
+				                        <label>
+				                            <input type="text" size="40" id="csftpCustomCmdDwn" name="csftpCustomCmdDwn" value="" /> 
+				                            <div class="contextual-help">
+										        <a data-content-id="csftpCustomCmdDwn-help"
+											       title="Open contextual help" class="modern-iconhelp" tabIndex="-1" href="#">?</a>
+										        <div class="help-dialog hidden">
+											        <div class="dialog-header">
+												        <span class="hidden" ></span>
+														<a class="btn-close" href="#">x</a>
+											        </div>
+											        <div class="dialog-content" data-for="csftpCustomCmdDwn" ></div>
+										        </div>
+								           	</div>
+									        <div id="csftpCustomCmdDwn-help" class="hidden">
+										       <p>If entered, custom ls command will be executed prior to download. </p>                            
+										    </div>
+				                        </label>
+				                    </div>
+				                </fieldset>      
+				            </td>
+				        </tr>
+                        <tr>
+                            <td style="padding-left: 50px;" nowrap="nowrap">Download folder:</td>
+                            <td colspan="2">
+                                <fieldset>
+                                    <table border="0" cellpadding="1" cellspacing="0">
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    <input type="checkbox" id="csftpDownloadExpression" name="csftpDownloadExpression" value=""/>                                               
+                                                    <span>Advanced Expression </span>                                              
+                                                    <div class="contextual-help">
+						                                <a data-content-id="csftpDownloadFolder-help"
+							                               title="Open contextual help" class="modern-iconhelp" tabIndex="-1" href="#">?</a>
+						                                <div class="help-dialog hidden">
+							                                <div class="dialog-header">
+								                                <span class="hidden" ></span>
+																<a class="btn-close" href="#">x</a>
+							                                </div>
+							                                <div class="dialog-content" data-for="csftpDownloadFolder" ></div>
+						                                </div>
+				           	                        </div>
+					                                <div id="csftpDownloadFolder-help" class="hidden">
+						                                <p>When checked the download folder is evaluated using expression language.</p>
+                                                        <ul>
+                                                            <li>Appending dates.</li>
+                                                        </ul>
+                                                        <p>The download folder will be evaluated using the current date when the transfer site is being executed.
+                                                           For example 'folder_20160601'.</p>   
+                                                        <p><code>folder_${date("yyyyMMdd")}</code></p>
+                                                        <a href="#p" class="use-example" data-for="csftpDownloadFolder">Use example</a><br/>
+						                            </div>
+												</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="text" size="40" id="csftpDownloadFolder" name="csftpDownloadFolder" value=""/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </fieldset>
+                            </td>
+                        </tr>
+                        <tr>
+				            <td style="padding-left: 50px;" nowrap="nowrap">Download Pattern Type:</td>
+				            <td colspan="2">
+				                <label><input type="radio" name="csftpPatternType" id="csftpPatternTypeRegex" value="regex" />Regular Expression</label>
+				                <label><input type="radio" name="csftpPatternType" id="csftpPatternTypeGlob" value="glob" />File Globbing</label>
+				                <div id="csftpDownloadPatternDesc" style="vertical-align: middle" class="contextual-help">
+				                    <a data-content-id="csftpDownloadPatternDiv"
+				                        title="Open contextual help" tabIndex="-1"
+				                        class="modern-iconhelp" href="#"><span>?</span></a>
+				                    <div class="help-dialog hidden">
+				                        <div class="dialog-header" style="height: 1px;">
+				                            <a href="#p" class="btn-close">x</a>
+				                        </div>
+				                        <div class="dialog-content"></div>
+				                    </div>
+				                </div>               
+				                <div id="csftpDownloadPatternDiv" class="hidden">
+				                    <p>
+				                        Pattern matching expression supports <code>"glob"</code> and <code>"regexp"</code> syntaxes.
+				                    </p>
+				                    <p>
+				                        When the pattern type is "<code>File Globbing</code>" then the <code>String</code> representation of the filename is matched using a limited pattern language that resembles regular expressions but with a simpler syntax. For example:
+				                    </p>
+				                    <ul>
+				                        <li>Matches files ending in <code>.xml</code>
+				                            <p class="example">*.xml</p>
+				                            <a href="#p" class="use-example" data-for="csftpDownloadPattern" onClick="document.getElementById('csftpPatternTypeGlob').checked = true;">Use example</a>
+				                        </li>
+				                        <li>Matches file names starting with <code>foo.</code> that have a double character extension
+				                            <p class="example">foo.??</p>
+				                            <a href="#p" class="use-example" data-for="csftpDownloadPattern" onClick="document.getElementById('csftpPatternTypeGlob').checked = true;">Use example</a>
+				                        </li>
+				                        <li>Matches file names ending in .1,.2,.3,.4,.5,.6,.7,.8,.9,.0
+				                            <p class="example">*.[0-9]</p>
+				                            <a href="#p" class="use-example" data-for="csftpDownloadPattern" onClick="document.getElementById('csftpPatternTypeGlob').checked = true;">Use example</a>
+				                        </li>
+				                        <li>Matches file names having a single character extension different from 1,2,3,4,5,6,7,8,9,0
+				                            <p class="example">*.[!0-9]</p>
+				                            <a href="#p" class="use-example" data-for="csftpDownloadPattern" onClick="document.getElementById('csftpPatternTypeGlob').checked = true;">Use example</a>
+				                        </li>
+				                    </ul>
+				                    <p>
+				                        When the syntax is "<code>Regular Expression</code>" then the <code>String</code> representation of the filename is matched against a Perl5.003 regular expressions. Perl5 extended regular expressions are also supported. For example:
+				                        <ul>
+				                            <li>Matches files ending in <code>.xml</code> or <code>.txt</code>
+				                                <p class="example">.*\.(xml|txt)</p>
+				                                <a href="#p" class="use-example" data-for="csftpDownloadPattern" onClick="document.getElementById('csftpPatternTypeRegex').checked = true;">Use example</a>
+				                            </li>
+				                            <li>Case insensitive match of <code>data.xml</code> file
+				                                <p class="example">(?i)data\.xml</p>
+				                                <a href="#p" class="use-example" data-for="csftpDownloadPattern" onClick="document.getElementById('csftpPatternTypeRegex').checked = true;">Use example</a>
+				                            </li>
+				                        </ul>
+				                    </p>
+				                </div>
+				            </td>
+				        </tr> 
+                        <tr>
+                            <td style="padding-left: 50px;" nowrap="nowrap">Download Pattern:</td>
+                            <td colspan="2">
+                                <fieldset>
+                                    <table border="0" cellpadding="1" cellspacing="0">
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    <input type="checkbox" id="csftpPatternExpression" name="csftpPatternExpression" value=""/>                                               
+                                                    <span>Advanced Expression </span>
+                                                
+                                                    <div class="contextual-help">
+						                                <a data-content-id="csftpDownloadPattern-help"
+							                               title="Open contextual help" class="modern-iconhelp" tabIndex="-1" href="#">?</a>
+						                                <div class="help-dialog hidden">
+							                                <div class="dialog-header">
+								                                <span class="hidden" ></span>
+																<a class="btn-close" href="#">x</a>
+							                                </div>
+							                                <div class="dialog-content" data-for="csftpDownloadPattern" ></div>
+						                                </div>
+				           	                        </div>
+					                                <div id="csftpDownloadPattern-help" class="hidden">
+						                                <p>When checked the download pattern is evaluated using expression language.</p>
+                                                        <ul>
+                                                            <li>Using it with dates.</li>
+                                                        </ul>
+                                                        <p>The download pattern will be evaluated using the current date when the transfer site is being executed. 
+                                                           For example '*_20160601.txt'. This will match all files ending with '_20160601.txt'.</p>   
+                                                        <p><code>*_${date("yyyyMMdd")}.txt</code></p>
+                                                        <a href="#p" class="use-example" data-for="csftpDownloadPattern">Use example</a><br/>
+						                            </div>
+												</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="text" size="40" id="csftpDownloadPattern" name="csftpDownloadPattern" value=""/>
+                                            </td>
+                                        </tr>    
+								        		
+                                    </table>
+                                </fieldset>
+                            </td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </td>
+        </tr>       
+        <tr>
+            <td colspan="3">
+                <fieldset><legend>Upload Settings</legend>
+                    <div>
+                        <table border="0" cellpadding="1" cellspacing="0">
+							<tr>
+					            <td style="padding-left: 50px;" nowrap="nowrap" width="100">Custom ls Command for Upload:</td>
+					            <td colspan="2">
+					                <fieldset>
+					                    <div>
+					                        <label>
+					                            <input type="text" size="40" id="csftpCustomCmdUpd" name="csftpCustomCmdUpd" value="" /> 
+					                            <div class="contextual-help">
+											        <a data-content-id="csftpCustomCmdUpd-help"
+												       title="Open contextual help" class="modern-iconhelp" tabIndex="-1" href="#">?</a>
+											        <div class="help-dialog hidden">
+												        <div class="dialog-header">
+													        <span class="hidden" ></span>
+															<a class="btn-close" href="#">x</a>
+												        </div>
+												        <div class="dialog-content" data-for="csftpCustomCmdUpd" ></div>
+											        </div>
+									           	</div>
+										        <div id="csftpCustomCmdUpd-help" class="hidden">
+											       <p>If entered, custom ls command will be executed prior to upload.  </p>                            
+											    </div>
+					                        </label>
+					                    </div>
+					                </fieldset>      
+					            </td>
+					        </tr>
+                            <tr>
+                                <td style="padding-left: 50px;" nowrap="nowrap">Upload folder:</td>
+                                <td>
+                                    <fieldset>
+                                        <table border="0" cellpadding="1" cellspacing="0">
+                                            <tr>
+                                                <td>
+                                                    <label>
+                                                        <input type="checkbox" id="csftpUploadAllowOverwrite" name="csftpUploadAllowOverwrite" value=""/>                                                    
+                                                        <span>Allow Overwrite </span>                                                    
+                                                        <div class="contextual-help">
+						                                    <a data-content-id="csftpUploadFolderAllowOverwrite-help"
+							                                   title="Open contextual help" class="modern-iconhelp" tabIndex="-1" href="#">?</a>
+						                                    <div class="help-dialog hidden">
+							                                    <div class="dialog-header">
+								                                    <span class="hidden" ></span>
+																	<a class="btn-close" href="#">x</a>
+							                                    </div>
+							                                    <div class="dialog-content" data-for="csftpUploadAllowOverwrite" ></div>
+						                                    </div>
+				           	                            </div>
+					                                    <div id="csftpUploadAllowOverwrite-help" class="hidden">
+						                                    <p>When checked, the upload folder can be modified by the Send To Partner routing step.</p>
+                                                            						                                </div>
+													</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="text" size="40" id="csftpUploadFolder" name="csftpUploadFolder" value="" />
+                                                    <div class="contextual-help">
+						                                    <a data-content-id="csftpUploadFolder-help"
+							                                   title="Open contextual help" class="modern-iconhelp" tabIndex="-1" href="#">?</a>
+						                                    <div class="help-dialog hidden">
+							                                    <div class="dialog-header">
+								                                    <span class="hidden" ></span>
+																	<a class="btn-close" href="#">x</a>
+							                                    </div>
+							                                    <div class="dialog-content" data-for="csftpUploadFolder" ></div>
+						                                    </div>
+				           	                            </div>
+					                                    <div id="csftpUploadFolder-help" class="hidden">
+						                                    <p>Enter the absolute path of the upload folder</p>
+                                                            						                                </div>
+                                                </td>
+                                            </tr>    
+                                        </table>
+                                    </fieldset>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </fieldset>
+            </td>
+        </tr>
+           
+        <tr>
+            <td colspan="3"><b>Site Login Credentials:</b></td>
+        </tr>
+        <tr>
+            <td style="padding-left: 50px;" nowrap="nowrap">User Name*:</td>
+            <td>
+                <fieldset>
+                    <table border="0" cellpadding="1" cellspacing="0">
+                        <tr>
+                            <td>
+                                <input type="text" size="40" id="csftpUserName" name="csftpUserName" value="" />
+                            </td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-left: 50px;" nowrap="nowrap">Password:</td>
+            <td>
+                <fieldset>
+                    <div id="csftp_usePassword_Control_Group">
+                        <label>
+                            <input type="checkbox" id="csftp_usePassword_Control" name="csftp_usePassword_Control" value=""/>
+                            <span>Use Password</span>
+                        </label>
+                    </div>
+                    <div id="csftp_usePassword_Control_Div">
+                        <label>
+                            <input type="password" size="40" id="csftpPassword" name="csftpPassword" autocomplete="off" value=""/>
+                        </label>
+                    </div>
+                </fieldset>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-left: 50px;" nowrap="nowrap">SSH Key:</td>
+            <td>
+                <fieldset>
+                    <table border="0" cellpadding="1" cellspacing="0">
+   					 <tr>
+				           <td>
+				                   <input type="hidden" id="clientCertificateIdOld" name="clientCertificateIdOld" value="" />
+			                       <select id="clientLocalCertificate" name="clientLocalCertificate" ></select>
+				           </td>
+				       </tr>
+                                               
+                        
+                    </table>
+                </fieldset>
+            </td>
+        </tr>
+
+    </table>
+            <!-- START ADVANCED SETTINGS -->
+    <div>
+        <label> <input type="checkbox" name="csftpShowAdvancedSettingsEnabled" id="csftpShowAdvancedSettingsEnabled" onchange="showHideBlockElements('csftpShowAdvancedSettingsEnabled', 'csftpAdvancedSettings')"> Show Advanced Settings</label>
+    </div>
+    <div id="csftpAdvancedSettings" style="display: none;">
+        <table>
+            <tbody>
+            <tr class="">
+                <td class="labelcell" style="vertical-align: top;"> <label for="csftpCipherSuites">Cipher Suites</label>:</td>
+                <td class="fullwidth"> <textarea class="template-input cellWidth" style="width: 280px; max-width: 450px;" rows="7" name="csftpCipherSuites" id="csftpCipherSuites">aes256-ctr</textarea> </td>
+                <td style="vertical-align: top;">
+                    <div id="csftpCipherSuitesDesc" style="vertical-align: middle" class="contextual-help">
+                        <a data-content-id="csftpCipherSuitesDiv" title="Open contextual help" tabindex="-1" class="modern-iconhelp" href="#"> <span>?</span> </a>
+                        <div class="help-dialog hidden" style="display: none;">
+                            <div class="dialog-header" style="height: 1px;">
+                                <a href="#p" class="btn-close">x</a>
+                            </div>
+                            <div class="dialog-content"> <!-- empty --> </div>
+                        </div>
+                    </div>
+                    <div id="csftpCipherSuitesDiv" class="hidden">
+                        <p>The cipher suites to be used for this connection (must be comma separated).</p>
+                        <p>The default value is<br>
+                        <i>aes256-ctr</i>.</p>
+                    </div>
+                </td>
+            </tr>  
+            <tr class="">
+                <td class="labelcell" style="vertical-align: top;"> <label for="csftpHmacs">Allowed Macs</label>:</td>
+                <td class="fullwidth"> <textarea class="template-input cellWidth" style="width: 280px; max-width: 450px;" rows="7" name="csftpHmacs" id="csftpHmacs">hmac-sha2-256</textarea> </td>
+                <td style="vertical-align: top;">
+                    <div id="csftpHmacsDesc" style="vertical-align: middle" class="contextual-help">
+                        <a data-content-id="csftpHmacsDiv" title="Open contextual help" tabindex="-1" class="modern-iconhelp" href="#"> <span>?</span> </a>
+                        <div class="help-dialog hidden" style="display: none;">
+                            <div class="dialog-header" style="height: 1px;">
+                                <a href="#p" class="btn-close">x</a>
+                            </div>
+                            <div class="dialog-content"> <!-- empty --> </div>
+                        </div>
+                    </div>
+                    <div id="csftpHmacsDiv" class="hidden">
+                        <p>The allowed macs (must be comma separated).</p>
+                        <p>The default value is<br>
+                        <i>hmac-sha2-256</i>.</p>
+                    </div>
+                </td>
+            </tr> 
+            <tr class="">
+                <td class="labelcell" style="vertical-align: top;"> <label for="csftpKex">Key exchange algorithms</label>:</td>
+                <td class="fullwidth"> <textarea class="template-input cellWidth" style="width: 280px; max-width: 450px;" rows="7" name="csftpKex" id="csftpKex">ecdh-sha2-nistp256</textarea> </td>
+                <td style="vertical-align: top;">
+                    <div id="csftpKexDesc" style="vertical-align: middle" class="contextual-help">
+                        <a data-content-id="csftpKexDiv" title="Open contextual help" tabindex="-1" class="modern-iconhelp" href="#"> <span>?</span> </a>
+                        <div class="help-dialog hidden" style="display: none;">
+                            <div class="dialog-header" style="height: 1px;">
+                                <a href="#p" class="btn-close">x</a>
+                            </div>
+                            <div class="dialog-content"> <!-- empty --> </div>
+                        </div>
+                    </div>
+                    <div id="csftpKexDiv" class="hidden">
+                        <p>The allowed kex (must be comma separated).</p>
+                        <p>The default value is<br>
+                        <i>ecdh-sha2-nistp256</i>.</p>
+                    </div>
+                </td>
+            </tr> 
+
+        </tbody> </table>
+    </div>
+        <!-- END ADVANCED SETTINGS -->
+</body>
+</html>
