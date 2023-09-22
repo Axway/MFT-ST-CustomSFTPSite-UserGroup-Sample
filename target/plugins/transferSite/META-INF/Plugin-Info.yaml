@@ -1,0 +1,8 @@
+Custom-Protocol: CustomSFTP
+SPI-Version:
+  '1.1':
+    Custom-Site: com.axway.pso.plugins.customsftp.site.CustomSFTPSite
+    Protocol-Label: Custom SFTP Transfer Site
+    Custom-UI: html/CustomSFTPSite.html
+    Class-Path: CustomSFTP/CustomSFTP.jar  CustomSFTP/lib/oro-2.0.8.jar  CustomSFTP/lib/securetransport-shared-java-core-15.0.0-10.jar  CustomSFTP/lib/securetransport-program-server-core-5.4-P22.jar  CustomSFTP/lib/securetransport-plugins-site-spi-5.4.jar  CustomSFTP/lib/jsch-0.2.10.jar  CustomSFTP/lib/jsch-0.1.55.jar  CustomSFTP/lib/bcprov-jdk15on-1.70.jar   
+ 
